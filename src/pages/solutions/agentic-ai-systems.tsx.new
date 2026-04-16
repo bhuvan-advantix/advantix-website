@@ -1,0 +1,124 @@
+import React, { useRef, useState } from 'react';
+import { Bot } from 'lucide-react';
+import Layout from '../../components/Layout';
+
+const AgenticAISystems = () => {
+  const [rotation, setRotation] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!containerRef.current) return;
+    
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateY = ((x - centerX) / centerX) * 10;
+    const rotateX = ((centerY - y) / centerY) * 10;
+    
+    setRotation({ x: rotateX, y: rotateY });
+  };
+  
+  const handleMouseLeave = () => {
+    setRotation({ x: 0, y: 0 });
+  };
+
+  return (
+    <Layout>
+      <div className="min-h-screen bg-background">
+        <section className="pt-32 pb-20">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+              <div className="lg:w-1/2">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-neon-purple/20 to-neon-blue/10 mb-6">
+                  <Bot size={32} className="text-neon-purple" />
+                </div>
+                <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-neon-purple to-neon-blue bg-clip-text text-transparent">
+                  Agentic AI Systems
+                </h2>
+                <p className="text-xl text-white/90 mb-8 max-w-3xl">
+                  Transform your business with <span className="font-semibold text-neon-blue">autonomous AI agents</span> that think, learn, and act independently to solve complex challenges and drive growth.
+                </p>
+              </div>
+              
+              {/* 3D Rotating Element */}
+              <div 
+                ref={containerRef}
+                className="relative w-full lg:w-1/2 h-80 lg:h-96"
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                style={{
+                  perspective: '1000px',
+                }}
+              >
+                <div 
+                  className="relative w-full h-full transition-transform duration-300 ease-out"
+                  style={{
+                    transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
+                    transformStyle: 'preserve-3d',
+                  }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-neon-purple/10 to-neon-blue/5 rounded-2xl border border-white/10 backdrop-blur-sm p-8 flex items-center justify-center">
+                    <img 
+                      src="/images/solutions/agentic-ai-process.png" 
+                      alt="Agentic AI Process"
+                      className="w-full h-auto max-h-full object-contain"
+                    />
+                  </div>
+                </div>
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-neon-purple/20 to-neon-blue/10 -z-10 blur-xl opacity-30"></div>
+              </div>
+            </div>
+
+            <div className="mt-20" id="how-it-works">
+              <h3 className="text-3xl font-bold text-center mb-12">How Agentic AI Works</h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="p-4 bg-muted/20 rounded-lg">
+                  <h4 className="font-medium text-neon-purple mb-2">1. Goal Setting</h4>
+                  <p className="text-sm">Define clear objectives and constraints for the AI agent.</p>
+                </div>
+                <div className="p-4 bg-muted/20 rounded-lg">
+                  <h4 className="font-medium text-neon-purple mb-2">2. Autonomous Planning</h4>
+                  <p className="text-sm">The agent creates and refines its own plan of action.</p>
+                </div>
+                <div className="p-4 bg-muted/20 rounded-lg">
+                  <h4 className="font-medium text-neon-purple mb-2">3. Execution</h4>
+                  <p className="text-sm">The agent takes actions to achieve its goals.</p>
+                </div>
+                <div className="p-4 bg-muted/20 rounded-lg">
+                  <h4 className="font-medium text-neon-purple mb-2">4. Self-Reflection</h4>
+                  <p className="text-sm">The agent evaluates its performance and adjusts its approach.</p>
+                </div>
+                <div className="p-4 bg-muted/20 rounded-lg">
+                  <h4 className="font-medium text-neon-purple mb-2">5. Memory Integration</h4>
+                  <p className="text-sm">Past interactions and learnings are applied to improve outcomes.</p>
+                </div>
+                <div className="p-4 bg-muted/20 rounded-lg">
+                  <h4 className="font-medium text-neon-purple mb-2">6. Feedback Loop</h4>
+                  <p className="text-sm">Continuous learning from results to enhance future performance.</p>
+                </div>
+              </div>
+
+              <div className="mt-8 text-center">
+                <a 
+                  href="/contact" 
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-neon-purple to-neon-blue text-white rounded-lg font-medium hover:opacity-90 transition-opacity"
+                >
+                  Get Started with Agentic AI
+                  <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </Layout>
+  );
+};
+
+export default AgenticAISystems;
